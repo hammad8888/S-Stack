@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply min-h-screen font-sans antialiased transition-colors duration-300;
+  }
+
+  body {
+    @apply bg-white text-gray-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-light text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-sm hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02];
+  }
+
+  .team-card {
+    @apply bg-white rounded-xl shadow-team hover:shadow-team-hover border border-gray-100 overflow-hidden transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
