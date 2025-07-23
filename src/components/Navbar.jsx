@@ -1,15 +1,16 @@
-// Navbar.jsx
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import { FiMenu, FiX, FiChevronDown } from 'react-icons/fi'
-import { FaReact, FaNodeJs } from 'react-icons/fa'
-import { SiMongodb, SiGraphql } from 'react-icons/si'
+import { FiMenu, FiX, FiChevronDown, FiUser } from 'react-icons/fi'
+import { FaReact, FaMobile } from 'react-icons/fa'
+import { SiMongodb, SiGraphql, SiFigma } from 'react-icons/si'
+import logo from '../assets/logo2.png'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hoveredLink, setHoveredLink] = useState(null)
+  const [mobileSubmenu, setMobileSubmenu] = useState(null)
   const location = useLocation()
 
   useEffect(() => {
@@ -20,16 +21,20 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const toggleMobileSubmenu = (linkName) => {
+    setMobileSubmenu(mobileSubmenu === linkName ? null : linkName)
+  }
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { 
       name: 'Services', 
       path: '/services',
       subItems: [
-        { name: 'StanzaCore', path: '/services/stanzacore', icon: <FaReact className="text-blue-500" /> },
-        { name: 'StanzaAPI', path: '/services/stanzaapi', icon: <FaNodeJs className="text-green-600" /> },
-        { name: 'StanzaDB', path: '/services/stanzadb', icon: <SiMongodb className="text-green-700" /> },
-        { name: 'StanzaQL', path: '/services/stanzaql', icon: <SiGraphql className="text-pink-500" /> }
+        { name: 'MERN Stack', path: '/services', icon: <FaReact className="text-blue-500" /> },
+        { name: 'App Development', path: '/services', icon: <FaMobile className="text-purple-600" /> },
+        { name: 'UI/UX Design', path: '/services', icon: <SiFigma className="text-pink-500" /> }
+      
       ]
     },
     { name: 'About', path: '/about' },
@@ -42,30 +47,36 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-2' : 'bg-white py-4'
+        scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-2' : 'bg-white/95 backdrop-blur-sm py-3'
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center space-x-2 group"
-          >
+          <Link to="/" className="flex items-center space-x-3 group">
             <motion.div
-              whileHover={{ rotate: 15 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className="w-10 h-10 bg-gradient-to-br from-blue-600 to-green-500 rounded-lg flex items-center justify-center shadow-md"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-10 h-10 rounded-lg flex items-center justify-center"
             >
-              <span className="text-white font-bold text-lg">SS</span>
+              <img 
+                src={logo} 
+                alt="StanzaStack Logo" 
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.target.onerror = null
+                  e.target.parentElement.innerHTML = '<span class="text-blue-600 font-bold text-lg">SS</span>'
+                }}
+              />
             </motion.div>
-            <span className="text-2xl font-bold text-gray-800">
-              Stanza<span className="text-green-500">Stack</span>
+            <span className="text-xl sm:text-2xl font-bold text-gray-800">
+              <span className="text-[#001EFF]">Stanza</span>
+              <span className="text-[#00F3FF]">Stack</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <div 
                 key={link.name}
@@ -75,10 +86,10 @@ export default function Navbar() {
               >
                 <Link
                   to={link.path}
-                  className={`flex items-center px-1 py-2 ${
+                  className={`flex items-center px-3 py-2 rounded-lg text-sm sm:text-base ${
                     location.pathname === link.path 
-                      ? 'text-blue-600 font-medium' 
-                      : 'text-gray-700 hover:text-blue-600'
+                      ? 'text-[#001EFF] font-medium' 
+                      : 'text-gray-700 hover:text-[#001EFF]'
                   } transition-colors`}
                 >
                   <span>{link.name}</span>
@@ -91,12 +102,11 @@ export default function Navbar() {
 
                 {/* Animated underline */}
                 <motion.div
-                  layoutId="nav-underline"
-                  className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600"
+                  className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#001EFF]"
                   initial={false}
                   animate={{
-                    width: location.pathname === link.path ? '100%' : hoveredLink === link.name ? '80%' : '0%',
-                    opacity: location.pathname === link.path ? 1 : hoveredLink === link.name ? 0.8 : 0
+                    scaleX: location.pathname === link.path ? 1 : hoveredLink === link.name ? 0.8 : 0,
+                    opacity: location.pathname === link.path ? 1 : hoveredLink === link.name ? 1 : 0
                   }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 />
@@ -110,13 +120,13 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute left-0 top-full mt-1 w-56 bg-white shadow-xl rounded-lg border border-gray-100 overflow-hidden"
+                        className="absolute left-0 top-full mt-1 w-56 bg-white shadow-xl rounded-lg border border-gray-100 overflow-hidden z-50"
                       >
                         {link.subItems.map((item) => (
                           <Link
                             key={item.name}
                             to={item.path}
-                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#001EFF] transition-colors"
                           >
                             <span className="mr-3 text-lg">{item.icon}</span>
                             <span>{item.name}</span>
@@ -129,31 +139,50 @@ export default function Navbar() {
               </div>
             ))}
             
-            {/* CTA Button */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="ml-4"
-            >
-              <Link
-                to="/contact"
-                className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all"
+            {/* Auth Buttons - Desktop */}
+            <div className="flex items-center ml-4 space-x-2">
+              <Link 
+                to="/login" 
+                className="px-3 py-2 text-gray-700 hover:text-[#001EFF] transition-colors text-sm sm:text-base"
               >
-                Get Started
-                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                Login
               </Link>
-            </motion.div>
+              <Link 
+                to="/signup" 
+                className="px-4 py-2 bg-gradient-to-r from-[#001EFF] to-[#00F3FF] text-white rounded-lg shadow-md hover:shadow-lg transition-all text-sm sm:text-base"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden text-gray-700 focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+          {/* Mobile menu button and auth */}
+          <div className="flex items-center lg:hidden gap-3">
+            {/* Auth Buttons - Mobile (icon only on xs, text on sm) */}
+            <div className="flex items-center">
+              <Link 
+                to="/login" 
+                className="p-2 text-gray-700 hover:text-[#001EFF] sm:hidden"
+                aria-label="Login"
+              >
+                <FiUser size={18} />
+              </Link>
+              <Link 
+                to="/login" 
+                className="hidden sm:block px-3 py-2 text-gray-700 hover:text-[#001EFF] text-sm"
+              >
+                Login
+              </Link>
+            </div>
+            
+            <button
+              className="text-gray-700 hover:text-[#001EFF] focus:outline-none p-1"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Menu"
+            >
+              {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -164,34 +193,49 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden bg-white absolute top-full left-0 w-full shadow-lg py-4"
+              className="lg:hidden bg-white w-full shadow-lg mt-2 rounded-lg overflow-hidden"
             >
-              <div className="space-y-2 px-4">
+              <div className="space-y-1 px-4 py-3">
                 {navLinks.map((link) => (
                   <div key={link.name} className="border-b border-gray-100 last:border-0">
-                    <Link
-                      to={link.path}
-                      className={`block px-4 py-3 ${
+                    <div 
+                      className={`flex justify-between items-center px-3 py-3 rounded-lg ${
                         location.pathname === link.path
-                          ? 'text-blue-600 font-medium'
+                          ? 'bg-blue-50 text-[#001EFF]'
                           : 'text-gray-700'
                       }`}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => toggleMobileSubmenu(link.name)}
                     >
-                      <div className="flex justify-between items-center">
-                        <span>{link.name}</span>
-                        {link.subItems && <FiChevronDown />}
-                      </div>
-                    </Link>
+                      <Link
+                        to={link.path}
+                        className="flex-grow"
+                        onClick={(e) => {
+                          if (!link.subItems) {
+                            setIsOpen(false)
+                          } else {
+                            e.preventDefault()
+                          }
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                      {link.subItems && (
+                        <FiChevronDown 
+                          className={`transition-transform ${
+                            mobileSubmenu === link.name ? 'rotate-180' : ''
+                          }`} 
+                        />
+                      )}
+                    </div>
                     
                     {/* Mobile submenu */}
-                    {link.subItems && (
-                      <div className="pl-6 py-2 space-y-2">
+                    {link.subItems && mobileSubmenu === link.name && (
+                      <div className="pl-4 py-2 space-y-1">
                         {link.subItems.map((item) => (
                           <Link
                             key={item.name}
                             to={item.path}
-                            className="block px-4 py-2 text-gray-600 hover:text-blue-600 rounded-lg hover:bg-blue-50"
+                            className="block px-3 py-2 text-gray-600 hover:text-[#001EFF] rounded-lg hover:bg-blue-50"
                             onClick={() => setIsOpen(false)}
                           >
                             <div className="flex items-center">
@@ -205,13 +249,21 @@ export default function Navbar() {
                   </div>
                 ))}
                 
-                <div className="pt-4">
-                  <Link
-                    to="/contact"
-                    className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 to-green-500 text-white font-medium rounded-lg shadow-md"
+                {/* Auth Buttons - Mobile (only shown on xs screens) */}
+                <div className="pt-2 sm:hidden">
+                  <Link 
+                    to="/login" 
+                    className="block px-4 py-2 text-center text-gray-700 hover:text-[#001EFF]"
                     onClick={() => setIsOpen(false)}
                   >
-                    Get Started
+                    Login
+                  </Link>
+                  <Link 
+                    to="/signup" 
+                    className="block px-4 py-2 mt-2 bg-gradient-to-r from-[#001EFF] to-[#00F3FF] text-white rounded-lg text-center shadow-md hover:shadow-lg"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Sign Up
                   </Link>
                 </div>
               </div>
@@ -222,3 +274,16 @@ export default function Navbar() {
     </motion.nav>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

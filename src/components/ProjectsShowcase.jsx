@@ -1,23 +1,34 @@
-// src/components/services/ProjectsShowcase.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FiExternalLink, FiGithub, FiArrowRight } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiExternalLink, FiArrowRight } from 'react-icons/fi';
+import Lenis from '@studio-freight/lenis';
 
 const ProjectsShowcase = () => {
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: [0.16, 1, 0.3, 1],
-        staggerChildren: 0.1
-      }
-    }
-  };
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const lenisRef = useRef(null);
+  const containerRef = useRef(null);
 
-  const staggerContainer = {
+  // Initialize Lenis smooth scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      lerp: 0.1,
+      smooth: true,
+      smoothTouch: true
+    });
+
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+
+    requestAnimationFrame(raf);
+    lenisRef.current = lenis;
+
+    return () => lenis.destroy();
+  }, []);
+
+  // Animation variants
+  const container = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -28,11 +39,23 @@ const ProjectsShowcase = () => {
     }
   };
 
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
   const cardHover = {
     hover: {
-      y: -10,
+      y: -8,
       transition: { 
-        duration: 0.3,
+        duration: 0.4,
         ease: "easeOut"
       }
     }
@@ -40,166 +63,208 @@ const ProjectsShowcase = () => {
 
   const projects = [
     {
-      title: "WazirAuto Platform",
-      description: "A complete automotive marketplace with AI-powered recommendations and dealer management system.",
-      tags: ["Next.js", "Node.js", "MongoDB", "Tailwind"],
-      image: "/images/wazirauto.jpg",
-      liveUrl: "https://wazirauto.com",
-      codeUrl: "https://github.com/yourusername/wazirauto",
-      featured: true,
-      accentColor: "from-emerald-500 to-teal-600"
+      title: "Sunshine Legal",
+      description: "Modern law firm platform with client portals and case management integration.",
+      tags: ["Next.js", "Tailwind", "Contentful"],
+      liveUrl: "https://sunshinelegal.com/",
+      accentColor: "from-amber-400 to-orange-500",
+      featured: true
     },
     {
-      title: "HealthTrack Pro",
-      description: "Comprehensive health monitoring app with wearable integration and data analytics dashboard.",
-      tags: ["React Native", "Firebase", "GraphQL", "TypeScript"],
-      image: "/images/healthtrack.jpg",
-      liveUrl: "https://healthtrack.app",
-      codeUrl: "https://github.com/yourusername/healthtrack",
+      title: "WazirAuto",
+      description: "Next-gen automotive marketplace with AI-powered recommendations.",
+      tags: ["React", "Node.js", "MongoDB"],
+      liveUrl: "https://wazirauto.com/",
       accentColor: "from-blue-500 to-indigo-600"
     },
     {
-      title: "EduConnect LMS",
-      description: "Learning management system with virtual classrooms, progress tracking, and certification.",
-      tags: ["React", "Django", "PostgreSQL", "WebRTC"],
-      image: "/images/educonnect.jpg",
-      liveUrl: "https://educonnect.tech",
-      codeUrl: "https://github.com/yourusername/educonnect",
+      title: "Corsa Athletics",
+      description: "Performance sportswear e-commerce with 3D product previews.",
+      tags: ["Shopify", "WebGL", "Liquid"],
+      liveUrl: "https://www.corsa-athletics.com/",
+      accentColor: "from-red-500 to-pink-600"
+    },
+    {
+      title: "One Green Filter",
+      description: "Sustainable product platform with environmental impact metrics.",
+      tags: ["WordPress", "WooCommerce", "GSAP"],
+      liveUrl: "https://onegreenfilter.com/",
+      accentColor: "from-green-500 to-emerald-600"
+    },
+    {
+      title: "Papa Injury Lawyer",
+      description: "Legal services portal with intelligent case evaluation.",
+      tags: ["Next.js", "Tailwind", "Formik"],
+      liveUrl: "https://nextjs-papainjurylawyer.vercel.app/",
       accentColor: "from-purple-500 to-fuchsia-600"
+    },
+    {
+      title: "Tucker Enterprise",
+      description: "Corporate logistics platform with real-time tracking.",
+      tags: ["React", "Bootstrap", "Node.js"],
+      liveUrl: "https://tuckerenterprise.com/",
+      accentColor: "from-cyan-500 to-blue-600"
     }
   ];
 
+  const displayedProjects = showAllProjects ? projects : projects.slice(0, 3);
+
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50" ref={containerRef}>
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="text-center mb-16 sm:mb-20"
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          variants={container}
+          className="text-center mb-16"
         >
           <motion.div 
-            variants={fadeInUp}
-            className="inline-block uppercase tracking-wider text-xs sm:text-sm font-medium text-emerald-500 px-3 py-1 bg-emerald-100 rounded-full mb-4"
+            variants={item}
+            className="inline-block text-xs font-semibold tracking-wider text-emerald-500 uppercase mb-4"
           >
-            Our Work
+            OUR WORK
           </motion.div>
+          
           <motion.h2 
-            className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900"
-            variants={fadeInUp}
+            variants={item}
+            className="text-4xl md:text-5xl font-bold mb-5 text-slate-900"
           >
-            Projects We've <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-700">Built</span>
+            <span className="relative inline-block">
+              <span className="relative z-10">Our Digital</span>
+              <motion.span 
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="absolute bottom-1 left-0 w-full h-3 bg-emerald-100/80 z-0"
+                style={{ originX: 0 }}
+              />
+            </span>{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">
+              Showcase
+            </span>
           </motion.h2>
+          
           <motion.p 
-            className="max-w-2xl mx-auto text-slate-600 text-base sm:text-lg"
-            variants={fadeInUp}
+            variants={item}
+            className="max-w-2xl mx-auto text-lg text-slate-600"
           >
-            Innovative solutions that demonstrate our technical expertise and creative approach.
+            Cutting-edge solutions that blend innovative design with robust functionality.
           </motion.p>
         </motion.div>
 
+        {/* Projects Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          variants={container}
         >
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              variants={fadeInUp}
-              whileHover="hover"
-              className="group relative overflow-hidden rounded-2xl bg-white border border-slate-200 hover:border-emerald-300 p-5 sm:p-6 transition-all hover:shadow-lg"
-            >
-              {/* Project Image */}
-              <motion.div 
-                className="h-48 sm:h-56 overflow-hidden rounded-lg relative"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.4 }}
+          <AnimatePresence>
+            {displayedProjects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                variants={item}
+                whileHover="hover"
+                className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100"
+                layout
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.accentColor} opacity-70 rounded-lg`}></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-4xl font-bold text-white/20">{project.title.split(' ')[0]}</div>
-                </div>
-                <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-slate-900/90 to-transparent"></div>
-              </motion.div>
-              
-              {/* Project Content */}
-              <div className="pt-5">
-                <h3 className="text-lg sm:text-xl font-semibold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-slate-600 text-sm sm:text-base mb-4">{project.description}</p>
-                
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tags.map((tag, i) => (
-                    <motion.span 
-                      key={i}
-                      whileHover={{ scale: 1.05 }}
-                      className="text-xs font-medium px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full"
+                {/* Gradient Header */}
+                <motion.div 
+                  className={`h-48 relative overflow-hidden bg-gradient-to-br ${project.accentColor}`}
+                  variants={cardHover}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div 
+                      initial={{ scale: 0.9, opacity: 0.8 }}
+                      whileHover={{ scale: 1.05, opacity: 1 }}
+                      className="text-white text-4xl font-bold tracking-tight text-center px-4"
                     >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </div>
+                      {project.title.split(' ')[0]}
+                    </motion.div>
+                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 0.2 }}
+                    className="absolute inset-0 bg-white/10 backdrop-blur-sm"
+                  />
+                </motion.div>
                 
-                {/* Links */}
-                <div className="flex items-center gap-4">
-                  <motion.a 
-                    href={project.liveUrl} 
-                    target="_blank" 
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">
+                      {project.title}
+                    </h3>
+                    {project.featured && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  
+                  <p className="text-slate-600 mb-5">{project.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag) => (
+                      <motion.span
+                        key={tag}
+                        whileHover={{ y: -2 }}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700"
+                      >
+                        {tag}
+                      </motion.span>
+                    ))}
+                  </div>
+                  
+                  <motion.a
+                    href={project.liveUrl}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ x: 2 }}
-                    className="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1.5 transition"
+                    whileHover={{ x: 4 }}
+                    className="inline-flex items-center text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
                   >
-                    <FiExternalLink className="w-4 h-4" />
-                    Live Demo
+                    Visit Live Site
+                    <FiExternalLink className="ml-1.5 w-4 h-4" />
                   </motion.a>
-                  {project.codeUrl && (
-                    <motion.a 
-                      href={project.codeUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      whileHover={{ x: 2 }}
-                      className="text-sm font-medium text-slate-500 hover:text-slate-800 flex items-center gap-1.5 transition"
-                    >
-                      <FiGithub className="w-4 h-4" />
-                      Source Code
-                    </motion.a>
-                  )}
                 </div>
-              </div>
-              
-              {/* Featured badge */}
-              {project.featured && (
-                <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                  Featured
-                </div>
-              )}
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
 
-        {/* View All Projects */}
+        {/* View More Button */}
         <motion.div
-          className="mt-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
+          className="mt-16 text-center"
         >
-          <motion.a 
-            href="/projects"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-lg text-white font-medium transition-all shadow-lg hover:shadow-emerald-500/20"
+          <motion.button
+            onClick={() => {
+              setShowAllProjects(!showAllProjects);
+              // Smooth scroll to show new items
+              setTimeout(() => {
+                lenisRef.current?.scrollTo(containerRef.current, {
+                  duration: 1.2,
+                  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+              }, 300);
+            }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="relative inline-flex items-center px-8 py-3.5 overflow-hidden text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full group"
           >
-            Explore Full Portfolio
-            <FiArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-          </motion.a>
+            <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40"></span>
+            <span className="relative flex items-center">
+              {showAllProjects ? 'Show Less Projects' : 'Explore Full Portfolio'}
+              <FiArrowRight className={`ml-2 w-4 h-4 transition-transform ${showAllProjects ? 'rotate-180' : ''}`} />
+            </span>
+          </motion.button>
         </motion.div>
       </div>
     </section>
