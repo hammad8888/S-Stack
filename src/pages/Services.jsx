@@ -13,8 +13,9 @@ const Services = () => {
       <ServiceHero />
       <ProjectsShowcase />
       <ServiceProcess />
+    
       <ServiceTestimonials />
-      <ServiceFAQ />
+        <ServiceFAQ />
       <ServiceCTA />
     </div>
   );

@@ -1,182 +1,116 @@
-// src/components/services/ServiceFAQ.jsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const FAQItem = ({ question, answer, isOpen, onClick }) => {
-  return (
-    <motion.div
-      className="border-b border-slate-700 last:border-0 overflow-hidden relative group"
-      initial={false}
-      animate={{
-        backgroundColor: isOpen ? 'rgba(30, 41, 59, 0.5)' : 'rgba(15, 23, 42, 0.5)',
-        borderColor: isOpen ? '#10b981' : '#334155'
-      }}
-      transition={{ duration: 0.3 }}
-    >
-      {isOpen && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0"
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        />
-      )}
-      
-      <button
-        className="w-full py-6 px-6 sm:px-8 text-left flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-emerald-500/50 rounded-lg relative z-10"
-        onClick={onClick}
-      >
-        <h3 className="text-lg sm:text-xl font-semibold text-white pr-4 leading-snug">
-          {question}
-        </h3>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex-shrink-0 text-emerald-400 group-hover:text-emerald-300 transition-colors"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </motion.div>
-      </button>
-      
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative z-10"
-          >
-            <div className="pb-6 px-6 sm:px-8 text-slate-300 leading-relaxed text-base sm:text-lg">
-              {answer}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-};
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 
 const ServiceFAQ = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const handleToggle = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
+  const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
     {
-      question: "What industries do you specialize in?",
-      answer: "We serve clients across various industries including healthcare, finance, e-commerce, education, and more. Our solutions are meticulously tailored to meet specific industry requirements and challenges."
+      question: "Do you work with startups or large enterprises?",
+      answer: "Yes. Our solutions scale to fit both startups looking to launch quickly and enterprises seeking long-term digital transformation.",
     },
     {
-      question: "How do you ensure project quality and timely delivery?",
-      answer: "We adhere to agile development methodologies, incorporating rigorous quality assurance processes, continuous integration, and regular client feedback loops to ensure high-quality, on-time project delivery."
+      question: "Can we request a customized solution?",
+      answer: "Absolutely. Every service we provide can be tailored to your unique business goals and user needs.",
     },
     {
-      question: "What is your typical project engagement model?",
-      answer: "We offer flexible engagement models, including fixed-price projects for well-defined scopes, time & materials for evolving requirements, and dedicated team setups for long-term partnerships. We'll help you choose the best fit for your needs."
+      question: "How quickly can we get started?",
+      answer: "We can begin with a discovery call within 1–2 days of contact. Kickoff depends on project scope and readiness.",
     },
     {
-      question: "Can you help with post-launch support and maintenance?",
-      answer: "Absolutely! Our commitment extends beyond deployment. We provide comprehensive post-launch support, maintenance, and optimization services to ensure your digital solutions remain secure, performant, and up-to-date in a dynamic environment."
+      question: "Is there a dedicated team for my project?",
+      answer: "Yes, we assign a focused team including project manager, developers, and designers to ensure communication and delivery.",
     },
-    {
-      question: "How do you handle intellectual property rights?",
-      answer: "All intellectual property developed during the project, including source code, designs, and documentation, is transferred to you upon project completion and full payment. This is clearly outlined in our transparent contracts."
-    }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
+  const toggle = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-950 to-slate-900 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
+    <section className="py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
+      <div className="max-w-7xl mx-auto">
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={containerVariants}
-          className="text-center mb-16 sm:mb-20"
+          transition={{ duration: 0.6 }}
         >
-          <motion.div 
-            variants={itemVariants}
-            className="inline-block uppercase tracking-wider text-xs sm:text-sm font-medium text-emerald-400 px-3 py-1 bg-emerald-900/30 rounded-full mb-4"
-          >
-            Need Answers?
-          </motion.div>
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white"
-            variants={itemVariants}
-          >
-            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Questions</span>
-          </motion.h2>
-          <motion.p
-            className="text-lg text-slate-400 max-w-3xl mx-auto"
-            variants={itemVariants}
-          >
-            Everything you need to know about our services and processes.
-          </motion.p>
+          <span className="inline-block text-sm font-medium text-teal-600 bg-teal-50 px-4 py-2 rounded-full mb-4">
+            Need Help?
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Everything you need to know about working with us
+          </p>
         </motion.div>
 
-        <motion.div
-          className="max-w-3xl mx-auto bg-slate-800/50 rounded-2xl overflow-hidden shadow-lg border border-slate-700 backdrop-blur-sm"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={containerVariants}
-        >
+        <div className="max-w-4xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
+              className={`rounded-xl overflow-hidden transition-all ${openIndex === index ? 'shadow-lg' : 'shadow-md hover:shadow-lg'}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
             >
-              <FAQItem
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={activeIndex === index}
-                onClick={() => handleToggle(index)}
-              />
+              <motion.button
+                onClick={() => toggle(index)}
+                className={`w-full flex justify-between items-center p-6 text-left focus:outline-none transition-colors ${openIndex === index ? 'bg-teal-50' : 'bg-white'}`}
+                whileHover={{ backgroundColor: '#f0fdfa' }}
+              >
+                <span className="text-lg font-medium text-slate-800 pr-4">
+                  {faq.question}
+                </span>
+                {openIndex === index ? (
+                  <ChevronUpIcon className="w-5 h-5 text-teal-600 shrink-0" />
+                ) : (
+                  <ChevronDownIcon className="w-5 h-5 text-slate-500 shrink-0" />
+                )}
+              </motion.button>
+
+              <AnimatePresence initial={false}>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="bg-white"
+                  >
+                    <div className="p-6 pt-0 text-slate-600 border-t border-slate-100">
+                      <div className="prose prose-slate max-w-none">
+                        {faq.answer}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="mt-16 text-center"
+        <motion.div 
+          className="text-center mt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
         >
-          <p className="text-slate-400 mb-4">Still have questions?</p>
-          <a 
-            href="/contact" 
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-lg text-white font-medium transition-all shadow-lg hover:shadow-emerald-500/20"
+          <p className="text-slate-600 mb-6">
+            Still have questions? We're happy to help.
+          </p>
+          <a
+            href="#contact"
+            className="inline-flex items-center px-6 py-3.5 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
           >
             Contact Our Team
-            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
           </a>

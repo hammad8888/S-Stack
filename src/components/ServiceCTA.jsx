@@ -72,7 +72,7 @@ const ServiceCTA = () => {
               <FiArrowRight className="w-5 h-5" />
             </motion.a>
             
-            <motion.a
+            {/* <motion.a
               href="/services"
               className="px-8 py-4 bg-transparent border-2 border-slate-700 hover:border-emerald-500/50 text-white font-medium rounded-lg hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2"
               whileHover={{ scale: 1.05 }}
@@ -80,7 +80,7 @@ const ServiceCTA = () => {
             >
               View Case Studies
               <FiDownload className="w-5 h-5" />
-            </motion.a>
+            </motion.a> */}
           </motion.div>
         </motion.div>
 
@@ -136,3 +136,32 @@ const ServiceCTA = () => {
 };
 
 export default ServiceCTA;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

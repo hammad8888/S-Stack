@@ -3,6 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiExternalLink, FiArrowRight } from 'react-icons/fi';
 import Lenis from '@studio-freight/lenis';
 
+// Import your images from assets
+import sunshineLegal from '../assets/wazir.png';
+import wazirAuto from '../assets/wazir.png';
+import corsaAthletics from '../assets/wazir.png';
+import oneGreenFilter from '../assets/wazir.png';
+import papaInjury from '../assets/wazir.png';
+import tuckerEnterprise from '../assets/wazir.png';
+
 const ProjectsShowcase = () => {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const lenisRef = useRef(null);
@@ -68,42 +76,48 @@ const ProjectsShowcase = () => {
       tags: ["Next.js", "Tailwind", "Contentful"],
       liveUrl: "https://sunshinelegal.com/",
       accentColor: "from-amber-400 to-orange-500",
-      featured: true
+      featured: true,
+      image: sunshineLegal
     },
     {
       title: "WazirAuto",
       description: "Next-gen automotive marketplace with AI-powered recommendations.",
       tags: ["React", "Node.js", "MongoDB"],
       liveUrl: "https://wazirauto.com/",
-      accentColor: "from-blue-500 to-indigo-600"
+      accentColor: "from-blue-500 to-indigo-600",
+      image: wazirAuto
     },
     {
       title: "Corsa Athletics",
       description: "Performance sportswear e-commerce with 3D product previews.",
       tags: ["Shopify", "WebGL", "Liquid"],
       liveUrl: "https://www.corsa-athletics.com/",
-      accentColor: "from-red-500 to-pink-600"
+      accentColor: "from-red-500 to-pink-600",
+      image: corsaAthletics
     },
     {
       title: "One Green Filter",
       description: "Sustainable product platform with environmental impact metrics.",
       tags: ["WordPress", "WooCommerce", "GSAP"],
       liveUrl: "https://onegreenfilter.com/",
-      accentColor: "from-green-500 to-emerald-600"
+      accentColor: "from-green-500 to-emerald-600",
+      image: oneGreenFilter
     },
     {
       title: "Papa Injury Lawyer",
       description: "Legal services portal with intelligent case evaluation.",
       tags: ["Next.js", "Tailwind", "Formik"],
       liveUrl: "https://nextjs-papainjurylawyer.vercel.app/",
-      accentColor: "from-purple-500 to-fuchsia-600"
+      accentColor: "from-purple-500 to-fuchsia-600",
+      image: papaInjury
     },
     {
       title: "Tucker Enterprise",
       description: "Corporate logistics platform with real-time tracking.",
       tags: ["React", "Bootstrap", "Node.js"],
       liveUrl: "https://tuckerenterprise.com/",
-      accentColor: "from-cyan-500 to-blue-600"
+      accentColor: "from-cyan-500 to-blue-600",
+      image: tuckerEnterprise
     }
   ];
 
@@ -172,20 +186,16 @@ const ProjectsShowcase = () => {
                 className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100"
                 layout
               >
-                {/* Gradient Header */}
+                {/* Image Header */}
                 <motion.div 
-                  className={`h-48 relative overflow-hidden bg-gradient-to-br ${project.accentColor}`}
+                  className="h-48 relative overflow-hidden"
                   variants={cardHover}
                 >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div 
-                      initial={{ scale: 0.9, opacity: 0.8 }}
-                      whileHover={{ scale: 1.05, opacity: 1 }}
-                      className="text-white text-4xl font-bold tracking-tight text-center px-4"
-                    >
-                      {project.title.split(' ')[0]}
-                    </motion.div>
-                  </div>
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover object-center"
+                  />
                   <motion.div 
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 0.2 }}
@@ -261,7 +271,7 @@ const ProjectsShowcase = () => {
           >
             <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40"></span>
             <span className="relative flex items-center">
-              {showAllProjects ? 'Show Less Projects' : 'Explore Full Portfolio'}
+              {showAllProjects ? 'Show Less Projects' : 'Show All Projects'}
               <FiArrowRight className={`ml-2 w-4 h-4 transition-transform ${showAllProjects ? 'rotate-180' : ''}`} />
             </span>
           </motion.button>

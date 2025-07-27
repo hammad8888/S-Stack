@@ -1,143 +1,3 @@
-// import React from 'react';
-// import { motion } from 'framer-motion';
-// import {
-//   FiArrowRight, FiCheckCircle, FiCode, FiLayers, FiMonitor,
-//   FiPieChart, FiShield
-// } from 'react-icons/fi';
-
-// const ServicesSection = () => {
-//   const fadeInUp = {
-//     hidden: { opacity: 0, y: 30 },
-//     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-//   };
-
-//   const staggerContainer = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-//     }
-//   };
-
-//   const services = [
-//     {
-//       title: "Web Development",
-//       description: "Custom, responsive websites built with modern frameworks.",
-//       icon: <FiMonitor className="w-6 h-6" />,
-//       highlights: ["React/Next.js", "Tailwind CSS", "SSR Optimization"]
-//     },
-//     {
-//       title: "UI/UX Design",
-//       description: "Interfaces crafted for engagement and usability.",
-//       icon: <FiLayers className="w-6 h-6" />,
-//       highlights: ["Figma/Sketch", "Design Systems", "User Testing"]
-//     },
-//     {
-//       title: "Mobile Apps",
-//       description: "Cross-platform mobile apps with native performance.",
-//       icon: <FiCode className="w-6 h-6" />,
-//       highlights: ["React Native", "iOS & Android", "Push Notifications"]
-//     },
-//     {
-//       title: "Data Solutions",
-//       description: "Data visualization and dashboards that deliver insights.",
-//       icon: <FiPieChart className="w-6 h-6" />,
-//       highlights: ["SQL/NoSQL", "Dashboards", "ETL Pipelines"]
-//     },
-//     {
-//       title: "DevOps",
-//       description: "Cloud infrastructure & CI/CD pipelines built to scale.",
-//       icon: <FiShield className="w-6 h-6" />,
-//       highlights: ["AWS/GCP", "Docker/K8s", "Monitoring"]
-//     },
-//     {
-//       title: "Consulting",
-//       description: "Strategy for digital growth and tech adoption.",
-//       icon: <FiCheckCircle className="w-6 h-6" />,
-//       highlights: ["Tech Audits", "Roadmapping", "Cost Optimization"]
-//     }
-//   ];
-
-//   return (
-//     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-50">
-//       <div className="max-w-7xl mx-auto">
-//         <motion.div
-//           initial="hidden"
-//           whileInView="visible"
-//           viewport={{ once: true }}
-//           variants={staggerContainer}
-//         >
-//           {/* Section Header */}
-//           <motion.div variants={fadeInUp} className="text-center mb-12">
-//             <span className="inline-block uppercase tracking-wider text-xs sm:text-sm font-medium text-emerald-500 px-3 py-1 bg-emerald-100 rounded-full mb-3">
-//               What We Offer
-//             </span>
-//             <h2 className="text-3xl sm:text-4xl font-bold mb-3 text-slate-900">
-//               Comprehensive <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-700">Services</span>
-//             </h2>
-//             <p className="max-w-2xl mx-auto text-slate-600 text-base sm:text-lg">
-//               End-to-end solutions tailored to your business and users.
-//             </p>
-//           </motion.div>
-
-//           {/* Service Cards */}
-//           <motion.div
-//             variants={staggerContainer}
-//             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-//           >
-//             {services.map((service, index) => (
-//               <motion.div
-//                 key={index}
-//                 variants={fadeInUp}
-//                 whileHover={{ y: -6 }}
-//                 className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 transition-all hover:border-emerald-300 hover:shadow-lg group"
-//               >
-//                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-emerald-50 rounded-md text-emerald-600 group-hover:bg-emerald-100 mb-4">
-//                   {service.icon}
-//                 </div>
-//                 <h3 className="text-lg sm:text-xl font-semibold mb-2 text-slate-800">{service.title}</h3>
-//                 <p className="text-sm sm:text-base text-slate-600 mb-3">{service.description}</p>
-//                 <ul className="space-y-2 text-sm text-slate-500">
-//                   {service.highlights.map((point, i) => (
-//                     <li key={i} className="flex items-start gap-2">
-//                       <FiCheckCircle className="text-emerald-500 w-4 h-4 mt-0.5 flex-shrink-0" />
-//                       <span>{point}</span>
-//                     </li>
-//                   ))}
-//                 </ul>
-//                 <button className="mt-5 text-emerald-600 hover:text-emerald-700 flex items-center gap-1 text-sm font-medium transition group-hover:translate-x-1">
-//                   Learn more <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-//                 </button>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default ServicesSection;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -295,14 +155,14 @@ const ServicesSection = () => {
                       </motion.li>
                     ))}
                   </ul>
-                  <motion.a
+                  {/* <motion.a
                     href="#"
                     className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium gap-2 group-hover:gap-3 transition-all"
                     whileHover={{ x: 5 }}
                   >
                     <span>Learn more</span>
                     <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </motion.a>
+                  </motion.a> */}
                 </div>
                 
                 {/* Hover effect overlay */}
