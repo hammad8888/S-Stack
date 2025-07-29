@@ -27,16 +27,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'Services', 
-      path: '/services',
-      subItems: [
-        { name: 'MERN Stack', path: '/services', icon: <FaReact className="text-blue-500" /> },
-        { name: 'App Development', path: '/services', icon: <FaMobile className="text-purple-600" /> },
-        { name: 'UI/UX Design', path: '/services', icon: <SiFigma className="text-pink-500" /> }
-      
-      ]
-    },
+    { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' }
   ]
@@ -93,11 +84,6 @@ export default function Navbar() {
                   } transition-colors`}
                 >
                   <span>{link.name}</span>
-                  {link.subItems && (
-                    <FiChevronDown className={`ml-1 transition-transform ${
-                      hoveredLink === link.name ? 'rotate-180' : ''
-                    }`} />
-                  )}
                 </Link>
 
                 {/* Animated underline */}
@@ -110,32 +96,6 @@ export default function Navbar() {
                   }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 />
-                
-                {/* Dropdown menu */}
-                {link.subItems && (
-                  <AnimatePresence>
-                    {hoveredLink === link.name && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-0 top-full mt-1 w-56 bg-white shadow-xl rounded-lg border border-gray-100 overflow-hidden z-50"
-                      >
-                        {link.subItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            to={item.path}
-                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-[#001EFF] transition-colors"
-                          >
-                            <span className="mr-3 text-lg">{item.icon}</span>
-                            <span>{item.name}</span>
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                )}
               </div>
             ))}
             
@@ -198,54 +158,17 @@ export default function Navbar() {
               <div className="space-y-1 px-4 py-3">
                 {navLinks.map((link) => (
                   <div key={link.name} className="border-b border-gray-100 last:border-0">
-                    <div 
-                      className={`flex justify-between items-center px-3 py-3 rounded-lg ${
+                    <Link
+                      to={link.path}
+                      className={`block px-3 py-3 rounded-lg ${
                         location.pathname === link.path
                           ? 'bg-blue-50 text-[#001EFF]'
                           : 'text-gray-700'
                       }`}
-                      onClick={() => toggleMobileSubmenu(link.name)}
+                      onClick={() => setIsOpen(false)}
                     >
-                      <Link
-                        to={link.path}
-                        className="flex-grow"
-                        onClick={(e) => {
-                          if (!link.subItems) {
-                            setIsOpen(false)
-                          } else {
-                            e.preventDefault()
-                          }
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                      {link.subItems && (
-                        <FiChevronDown 
-                          className={`transition-transform ${
-                            mobileSubmenu === link.name ? 'rotate-180' : ''
-                          }`} 
-                        />
-                      )}
-                    </div>
-                    
-                    {/* Mobile submenu */}
-                    {link.subItems && mobileSubmenu === link.name && (
-                      <div className="pl-4 py-2 space-y-1">
-                        {link.subItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            to={item.path}
-                            className="block px-3 py-2 text-gray-600 hover:text-[#001EFF] rounded-lg hover:bg-blue-50"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <div className="flex items-center">
-                              <span className="mr-3">{item.icon}</span>
-                              <span>{item.name}</span>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                      {link.name}
+                    </Link>
                   </div>
                 ))}
                 
@@ -274,16 +197,3 @@ export default function Navbar() {
     </motion.nav>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

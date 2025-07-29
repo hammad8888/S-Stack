@@ -10,10 +10,11 @@ const AboutPage = () => {
   return (
     <div className="overflow-hidden">
       <AboutHero />
+      <TeamSection />
       <MissionVision />
       <WhyChooseUs />
       <CoreValues />
-      <TeamSection />
+      
       <StatsSection />
       <CTA />
     </div>

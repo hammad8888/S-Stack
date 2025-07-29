@@ -4,12 +4,12 @@ import { FiExternalLink, FiArrowRight } from 'react-icons/fi';
 import Lenis from '@studio-freight/lenis';
 
 // Import your images from assets
-import sunshineLegal from '../assets/wazir.png';
-import wazirAuto from '../assets/wazir.png';
-import corsaAthletics from '../assets/wazir.png';
-import oneGreenFilter from '../assets/wazir.png';
-import papaInjury from '../assets/wazir.png';
-import tuckerEnterprise from '../assets/wazir.png';
+import sunshineLegal from '../assets/sun.png';
+import wazirAuto from '../assets/wazirauto.png';
+import corsaAthletics from '../assets/corsa.png';
+import oneGreenFilter from '../assets/onegreen.png';
+import papaInjury from '../assets/papalaw.png';
+import tuckerEnterprise from '../assets/tucker.png';
 
 const ProjectsShowcase = () => {
   const [showAllProjects, setShowAllProjects] = useState(false);

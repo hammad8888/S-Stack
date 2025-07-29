@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import ContactHero from '../components/ContactHero';
 import ContactForm from '../components/ContactForm';
 import ContactInfo from '../components/ContactInfo';
-import ContactMap from '../components/ContactMap';
+// import ContactMap from '../components/ContactMap';
 
 const ContactPage = () => {
   useEffect(() => {
@@ -25,7 +25,7 @@ const ContactPage = () => {
 
 
         </div>
-            <ContactMap />
+            {/* <ContactMap /> */}
       </div>
     </div>
   );
