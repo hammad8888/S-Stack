@@ -1,8 +1,8 @@
 import Hero from '../components/Hero';
-import Services from '../components/Services';
+import Services from '../components/MainServices';
 import ProjectsShowcase from '../components/ProjectsShowcase';
 
-import ContactCTA from '../components/ContactCTA';
+
 import CTA from '../components/CTA';
 import ServiceTestimonials from '../components/ServiceTestimonials';
 

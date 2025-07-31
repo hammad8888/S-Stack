@@ -14,8 +14,8 @@ export default function App() {
           <Navbar />
         </div>
 
-        {/* Spacer to account for fixed navbar */}
-        <div className="h-16"></div> {/* Adjusted to navbar height only */}
+       
+        <div className="h-16"></div> 
 
         <main className="flex-grow">
           <Routes>

@@ -1,10 +1,6 @@
-// src/components/Team.jsx
-
 import React from 'react';
-// Make sure you have react-icons installed: npm install react-icons
 import { FaLinkedin, FaTwitter, FaGithub, FaDribbble } from 'react-icons/fa';
 
-// Team members data
 const teamMembers = [
   {
     id: 1,
