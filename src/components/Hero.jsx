@@ -88,7 +88,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link
-              to="/get-started"
+              to="/Contact"
               className="relative overflow-hidden inline-flex items-center justify-center bg-accent hover:bg-gradient-to-r from-[#001EFF] to-[#00F3FF] text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-xl"
             >
               <motion.span 

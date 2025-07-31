@@ -106,7 +106,7 @@ const ServiceFAQ = () => {
             Still have questions? We're happy to help.
           </p>
           <a
-            href="#contact"
+            href="/Contact"
             className="inline-flex items-center px-6 py-3.5 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all"
           >
             Contact Our Team

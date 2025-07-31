@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom'; // Import the Link component
 
 const CTA = () => {
   return (
@@ -18,20 +19,25 @@ const CTA = () => {
             Join thousands of developers already building with Stanza Stack
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-indigo-600 font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-lg"
-            >
-              Get Started
-            </motion.button>
+            <Link to="/Contact"> 
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-indigo-600 font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-lg"
+              >
+                Get Started
+              </motion.button>
+            </Link>
+            <Link to="/Services">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-transparent border-2 border-white text-white font-medium py-3 px-8 rounded-full transition-all duration-300"
             >
-              Documentation
+              View all Services
             </motion.button>
+            </Link>
+            
           </div>
         </motion.div>
       </div>

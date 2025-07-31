@@ -64,7 +64,7 @@ const ServiceHero = () => {
                   Get Started <FiArrowRight />
                 </motion.a>
                 <motion.a
-                  href="/services"
+                  href="/About"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-6 py-3 bg-transparent border border-slate-700 hover:bg-slate-800/50 rounded-lg font-medium transition text-white"
