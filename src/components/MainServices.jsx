@@ -107,8 +107,9 @@ const Services = () => {
   const [autoScroll, setAutoScroll] = useState(true);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
 
-  // Lenis
+  // Lenis smooth scrolling
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.1, smooth: true });
     function raf(time) {
@@ -119,53 +120,114 @@ const Services = () => {
     return () => lenis.destroy();
   }, []);
 
-  // Scroll logic
+  // Auto-scroll and scroll position tracking
   useEffect(() => {
-    const updateScrollInfo = () => {
-      if (!containerRef.current) return;
-      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+    const container = containerRef.current;
+    if (!container) return;
 
+    let animationFrame;
+    let scrollPosition = 0;
+    let direction = 1;
+    let speed = 0.5;
+    let lastScrollTime = 0;
+
+    const updateScrollInfo = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScroll = scrollWidth - clientWidth;
+      
       setShowLeftArrow(scrollLeft > 0);
-      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
+      setShowRightArrow(scrollLeft < maxScroll - 1);
 
       const indicator = document.getElementById('scroll-indicator');
-      if (indicator) {
-        const percent = (scrollLeft / (scrollWidth - clientWidth)) * 100;
+      if (indicator && maxScroll > 0) {
+        const percent = (scrollLeft / maxScroll) * 100;
         indicator.style.width = `${percent}%`;
       }
     };
 
-    if (containerRef.current) {
-      containerRef.current.addEventListener('scroll', updateScrollInfo);
-      updateScrollInfo();
-    }
+    const smoothScroll = () => {
+      if (!container || !autoScroll || !isInView || isScrolling) {
+        animationFrame = requestAnimationFrame(smoothScroll);
+        return;
+      }
 
-    let interval;
-    if (isInView && autoScroll && containerRef.current) {
-      interval = setInterval(() => {
-        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          containerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          containerRef.current.scrollBy({ left: 1, behavior: 'auto' });
-        }
-      }, 30);
-    }
+      const { scrollWidth, clientWidth } = container;
+      const maxScroll = scrollWidth - clientWidth;
+
+      // Only update scroll position if not at the edge or if we're changing direction
+      if (!(scrollPosition >= maxScroll && direction > 0) && 
+          !(scrollPosition <= 0 && direction < 0)) {
+        scrollPosition += speed * direction;
+      }
+
+      // Reverse direction at ends
+      if (scrollPosition >= maxScroll) {
+        direction = -1;
+        scrollPosition = maxScroll;
+      } else if (scrollPosition <= 0) {
+        direction = 1;
+        scrollPosition = 0;
+      }
+
+      container.scrollLeft = scrollPosition;
+      updateScrollInfo();
+      animationFrame = requestAnimationFrame(smoothScroll);
+    };
+
+    const handleScroll = () => {
+      const now = Date.now();
+      if (now - lastScrollTime > 100) {
+        updateScrollInfo();
+      }
+      lastScrollTime = now;
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    animationFrame = requestAnimationFrame(smoothScroll);
 
     return () => {
-      containerRef.current?.removeEventListener('scroll', updateScrollInfo);
-      clearInterval(interval);
+      container.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(animationFrame);
     };
-  }, [isInView, autoScroll]);
+  }, [isInView, autoScroll, isScrolling]);
 
   const scroll = (direction) => {
-    if (containerRef.current) {
-      const scrollAmount = containerRef.current.clientWidth * 0.8;
-      containerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
+    if (!containerRef.current) return;
+
+    setIsScrolling(true);
+    setAutoScroll(false);
+
+    const container = containerRef.current;
+    const scrollAmount = container.clientWidth * 0.8;
+    const targetScroll = direction === 'left' 
+      ? Math.max(0, container.scrollLeft - scrollAmount)
+      : Math.min(container.scrollWidth - container.clientWidth, container.scrollLeft + scrollAmount);
+
+    const startTime = performance.now();
+    const duration = 500; // milliseconds
+    const startScroll = container.scrollLeft;
+
+    const animateScroll = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeProgress = easeInOutQuad(progress);
+      
+      container.scrollLeft = startScroll + (targetScroll - startScroll) * easeProgress;
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        setIsScrolling(false);
+        setAutoScroll(true);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+  // Easing function for smooth button scrolling
+  const easeInOutQuad = (t) => {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   };
 
   return (
@@ -255,46 +317,3 @@ const Services = () => {
 };
 
 export default Services;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
