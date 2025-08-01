@@ -18,7 +18,7 @@ const ContactInfo = () => {
           </div>
           <div>
             <h4 className="font-medium text-gray-800">Our Address</h4>
-            <p className="text-gray-600">123 Business Ave, Suite 400<br />San Francisco, CA 94107</p>
+            <p className="text-gray-600">Jaranwala road, Faisalabad<br />Punjab, Pakistan</p>
           </div>
         </div>
         
@@ -28,7 +28,7 @@ const ContactInfo = () => {
           </div>
           <div>
             <h4 className="font-medium text-gray-800">Phone</h4>
-            <p className="text-gray-600">+1 (555) 123-4567<br />Mon-Fri, 9am-5pm PST</p>
+            <p className="text-gray-600">+92 (321) 3018303<br />Mon-Fri, 9am-5pm PK</p>
           </div>
         </div>
         
@@ -38,7 +38,7 @@ const ContactInfo = () => {
           </div>
           <div>
             <h4 className="font-medium text-gray-800">Email</h4>
-            <p className="text-gray-600">hello@stanzastack.com<br />support@stanzastack.com</p>
+            <p className="text-gray-600">stanzastack@gmail.com</p>
           </div>
         </div>
         
