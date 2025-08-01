@@ -10,9 +10,11 @@ const teamMembers = [
   {
     id: 1,
     name: 'Hammad Mustafa',
-    title: 'CEO & Full Stack Developer',
+    designation: '',
+
+    title: 'Web Developer ',
     image: HammadImage,
-    bio: 'Visionary leader and technical expert driving innovation and strategic growth for the company.',
+    bio: 'A passionate web developer with a focus on creating dynamic and responsive web applications using the latest technologies.',
     social: {
       linkedin: 'https://www.linkedin.com/in/hammad-mustafa-/',
       whatsapp: 'https://wa.me/923213018303',
@@ -21,8 +23,10 @@ const teamMembers = [
   },
   {
     id: 2,
-    name: 'M. Usman AH',
+    name: 'Muhammad Usman',
     title: 'MERN Stack Developer',
+    designation: '',
+
     image: UsmanImage,
     bio: 'Specializing in building robust and scalable web applications with MongoDB, Express, React, and Node.js.',
     social: {
@@ -32,30 +36,36 @@ const teamMembers = [
   },
   {
     id: 3,
-    name: 'Zara Malik',
-    title: 'Social Media Manager',
+    name: 'Muhammad Bilal',
+    title: 'MERN Stack Developer & AI Specialist',
+    designation: '',
+
     image: ZaraImage,
-    bio: 'Creating engaging content and managing digital presence to connect with our audience effectively.',
+    bio: 'Expert in developing AI-driven applications and enhancing user experiences through innovative solutions.',
     social: {
-      linkedin: 'https://linkedin.com/in/zaramalik',
-      whatsapp: 'https://wa.me/923213018303',
+      linkedin: 'https://www.linkedin.com/in/muhammad-bilal-509475238 ',
+      whatsapp: 'https://wa.me/923030489680',
     },
   },
   {
     id: 4,
-    name: 'Bilal AH',
-    title: 'Mobile App Developer',
+    name: 'Muhammad Umar',
+    designation: 'Chief Executive Officer',
+    title: 'Digital Solutions Architect',
     image: BilalImage,
-    bio: 'Building cross-platform mobile applications with React Native and Flutter for seamless user experiences.',
+    bio: 'Dynamic developer with expertise in full stack development and mobile app solutions, committed to delivering high-quality products.',
     social: {
-      linkedin: 'https://linkedin.com/in/bilalah',
-      whatsapp: 'https://wa.me/923213018303',
-      github: 'https://github.com/bilalah',
+      linkedin: 'https://www.linkedin.com/in/ch-umar-062a41198/',
+      whatsapp: 'https://wa.me/923030489680',
     },
   },
 ];
 
 const Team = () => {
+  // Separate CEO from other team members
+  const ceo = teamMembers.find(member => member.designation.includes('Chief Executive Officer'));
+  const otherMembers = teamMembers.filter(member => !member.designation.includes('Chief Executive Officer'));
+
   return (
     <section className="bg-light py-16 font-sans text-gray-900">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -66,8 +76,77 @@ const Team = () => {
           A dedicated team of professionals committed to delivering exceptional results.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-center items-stretch">
-          {teamMembers.map((member, index) => (
+        {/* CEO Card - Centered at the top */}
+        {ceo && (
+          <div className="flex justify-center mb-12 animate-fade-in-up">
+            <div className="group rounded-xl p-6 text-center shadow-lg transition-all duration-700 ease-in-out
+              bg-white hover:bg-gradient-to-br hover:from-[#001EFF] hover:to-[#00F3FF]
+              hover:text-white hover:shadow-2xl hover:-translate-y-2 w-full max-w-md">
+              <div className="mb-4">
+                <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 border-4 border-primary shadow-md flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                  <img
+                    src={ceo.image}
+                    alt={ceo.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold mb-1 transition-colors duration-300 group-hover:text-white">
+                  {ceo.designation}
+                </h3>
+                 <h3 className="text-2xl font-semibold mb-1 transition-colors duration-300 group-hover:text-white">
+                  {ceo.name}
+                </h3>
+                <p className="text-md text-gray-600 font-medium transition-colors duration-300 group-hover:text-white">
+                  {ceo.title}
+                </p>
+              </div>
+
+              <div className="flex justify-center space-x-4 mt-auto mb-4">
+                {ceo.social.linkedin && (
+                  <a
+                    href={ceo.social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`LinkedIn of ${ceo.name}`}
+                    className="text-gray-500 group-hover:text-white transition-colors duration-300 hover:scale-110"
+                  >
+                    <FaLinkedin className="text-xl animate-float" />
+                  </a>
+                )}
+                {ceo.social.github && (
+                  <a
+                    href={ceo.social.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`GitHub of ${ceo.name}`}
+                    className="text-gray-500 group-hover:text-white transition-colors duration-300 hover:scale-110"
+                  >
+                    <FaGithub className="text-xl animate-float" />
+                  </a>
+                )}
+                {ceo.social.whatsapp && (
+                  <a
+                    href={ceo.social.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`WhatsApp of ${ceo.name}`}
+                    className="text-gray-500 group-hover:text-white transition-colors duration-300 hover:scale-110"
+                  >
+                    <FaWhatsapp className="text-xl animate-float" />
+                  </a>
+                )}
+              </div>
+
+              <p className="text-sm text-gray-700 group-hover:text-white transition-colors duration-300 leading-relaxed mt-2">
+                {ceo.bio}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Other Team Members in a grid below */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch">
+          {otherMembers.map((member, index) => (
             <div
               key={member.id}
               className={`group rounded-xl p-6 text-center shadow-lg transition-all duration-700 ease-in-out
